@@ -1,0 +1,52 @@
+{% extends 'usuarios/base.html' %}
+{% load tz %}
+{% block conteudo %}
+{% comment %} {% load humanize %} {% endcomment %}
+
+
+
+
+<div class="container"></br>
+ 
+    <h3>Lista das suas DATAS!</h3></br>
+    <table class = "table table-bordered table-striped"> 
+        <form method="GET" action="{% url 'buscar_nomes' %}">
+            <input type="text" name="nome_busca" placeholder="Buscar por nome...">
+            <button type="submit">Buscar</button>
+        </form>
+
+
+        <form method="GET" action="{% url 'buscar_datas' %}">
+            <label for="data_inicial">Data inicial:</label>
+            <input type="date" id="data_inicial" name="data_inicial">
+        
+            <label for="data_final">Data final:</label>
+            <input type="date" id="data_final" name="data_final">
+        
+            <button type="submit">Filtrar</button>
+        </form>
+
+
+        <tr>
+            <th>id</th>
+            <th>nome cliente</th>
+            <th>data da festa</th>
+            <th>endereco</th>
+        </tr>
+    
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{usuario.id_usuario}}</td>
+            <td>{{usuario.nome_cliente}}</td>
+            <td>{{ usuario.data_da_festa }}</td>
+            
+            <td><a href="{{usuario.google_maps_url}}" target="_blank">{{usuario.endereco|urlize}}</td>
+            <td><a href="{% url 'excluir_usuario' usuario.id_usuario %}"  class="btn btn-danger">EXCLUIR</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+
+{% endblock %}
