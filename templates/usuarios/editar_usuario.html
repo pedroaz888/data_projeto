@@ -1,0 +1,28 @@
+
+{% extends 'usuarios/base.html' %}
+{% load tz %}
+{% block conteudo %}
+
+<div class="container"></br>
+
+  <h2>Editar Usuário</h2>
+  <form method="POST" action="{% url 'editar_usuario' id=usuario.id_usuario %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="nome_cliente">Nome do Cliente:</label>
+      <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" value="{{ usuario.nome_cliente }}" required>
+    </div>
+    <div class="form-group">
+      <label for="data_da_festa">Data da Festa:</label>
+      <input type="date" class="form-control" id="data_da_festa" name="data_da_festa" value="{{ usuario.data_da_festa|date:'Y-m-d' }}" required>
+    </div>
+    <div class="form-group">
+      <label for="endereco">Endereço:</label>
+      <input type="text" class="form-control" id="endereco" name="endereco" value="{{ usuario.endereco }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{% url 'usuarios' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+
+{% endblock %}

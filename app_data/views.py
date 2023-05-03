@@ -66,6 +66,27 @@ def buscar_datas(request):
             return render(request, 'usuarios/usuarios.html', {'mensagem': mensagem})
 
 
+def editar_usuario(request, id):
+    usuario = Usuario.objects.get(id_usuario=id)
+    
+    if request.method == 'POST':
+        nome_cliente = request.POST.get('nome_cliente')
+        data_da_festa = request.POST.get('data_da_festa')
+        endereco = request.POST.get('endereco')
+
+        usuario.nome_cliente = nome_cliente  
+        usuario.data_da_festa = datetime.strptime(data_da_festa, '%Y-%m-%d')
+        usuario.endereco = endereco
+
+        usuario.save()
+
+        return redirect('usuarios')
+    else:
+        return render(request, 'usuarios/editar_usuario.html', {'usuario': usuario})
+
+
+
+
 
 def excluir_usuario(request, id):
     usuario = Usuario.objects.get(id_usuario=id)

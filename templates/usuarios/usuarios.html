@@ -38,10 +38,11 @@
         <tr>
             <td>{{usuario.id_usuario}}</td>
             <td>{{usuario.nome_cliente}}</td>
-            <td>{{ usuario.data_da_festa }}</td>
-            
+            <td>{{ usuario.data_da_festa }}</td>       
             <td><a href="{{usuario.google_maps_url}}" target="_blank">{{usuario.endereco|urlize}}</td>
+
             <td><a href="{% url 'excluir_usuario' usuario.id_usuario %}"  class="btn btn-danger">EXCLUIR</a></td>
+            <td><a href="{% url 'editar_usuario' usuario.id_usuario %}" class="btn btn-primary">EDITAR</a></td>
         </tr>
         {% endfor %}
     </table>
