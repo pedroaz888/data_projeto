@@ -11,10 +11,28 @@
             Data da Festa <input name="data_da_festa" class="form-control-sm" type="date" required>
             Endereço <input name ="endereco" class="form-control-sm" type="text" required>
             
-            <button class="form-control-sm">Enviar</button>
+  
+            <form action="{% url 'usuarios' %}" method="POST">
+            <div style="text-align:right;"class="form-group">
+              <label for="datas_importantes">IMPORTANTE:</label>
+
+              <select class="form-control-sm" name="datas_importantes" id="datas_importantes">
+                <option value="False">Não</option>
+                <option value="True">Sim</option>
+              </select>
+      
+
+          </div>
+            
+              <button class="form-control-sm">Enviar</button>
+            </div>
+
+
+          
         </div>
     </form>
 
-
-
 {% endblock %}
+
+
+

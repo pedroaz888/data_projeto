@@ -12,6 +12,7 @@ class Usuario(models.Model):
     nome_cliente = models.TextField(max_length=100, null=False, blank=False, default=None)
     data_da_festa = models.DateField()
     endereco = models.TextField(max_length=600, null=False, blank=False, default=None)
+    datas_importantes = models.BooleanField(default=False)
    
     def __str__(self):
         return self.nome_cliente

@@ -22,25 +22,35 @@
         
             <label for="data_final">Data final:</label>
             <input type="date" id="data_final" name="data_final">
-        
+
+          
             <button type="submit">Filtrar</button>
         </form>
 
+        <label for="datas_importantes">DATAS IMPORTANTES:</label>
 
+        <form method="GET" action="{% url 'datas_importantes' %}">
+            <button type="submit">Filtrar</button>
+        </form>
+
+    
         <tr>
             <th>id</th>
             <th>nome cliente</th>
             <th>data da festa</th>
-            <th>endereco</th>
+            <th>endereço</th>
+           {% comment %}  <th>Datas IMPORTANTES</th> {% endcomment %}
+
+           
         </tr>
     
         {% for usuario in usuarios %}
-        <tr>
+        <tr data-usuario-id="{{ usuario.id_usuario }}">
             <td>{{usuario.id_usuario}}</td>
             <td>{{usuario.nome_cliente}}</td>
-            <td>{{ usuario.data_da_festa }}</td>       
+            <td>{{ usuario.data_da_festa }}</td> 
             <td><a href="{{usuario.google_maps_url}}" target="_blank">{{usuario.endereco|urlize}}</td>
-
+            {% comment %} <td>{{ usuario.datas_importantes }}</td>    {% endcomment %}  
             <td><a href="{% url 'excluir_usuario' usuario.id_usuario %}"  class="btn btn-danger">EXCLUIR</a></td>
             <td><a href="{% url 'editar_usuario' usuario.id_usuario %}" class="btn btn-primary">EDITAR</a></td>
         </tr>
@@ -51,3 +61,6 @@
 
 
 {% endblock %}
+
+
+

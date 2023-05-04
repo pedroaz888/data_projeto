@@ -3,6 +3,7 @@ from .models import Usuario
 from django.shortcuts import redirect
 from .models import Usuario
 from datetime import datetime
+from django.http import JsonResponse
 #import locale
 #locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
@@ -12,28 +13,35 @@ def home(request):
     return render(request, 'usuarios/home.html')
 
 
-def usuarios(request):
+def usuarios(request, importantes=None):
     if request.method == 'POST':
         nome_cliente = request.POST.get('nome_cliente')
         data_da_festa = request.POST.get('data_da_festa')
         endereco = request.POST.get('endereco')
+        datas_importantes = request.POST.get('datas_importantes')
 
         novo_usuario = Usuario()
         novo_usuario.nome_cliente = nome_cliente  
-        novo_usuario.data_da_festa = datetime.strptime(data_da_festa, '%Y-%m-%d')
+        novo_usuario.data_da_festa = datetime.strptime(data_da_festa, '%Y-%m-%d') 
         novo_usuario.endereco = endereco
-
+        novo_usuario.datas_importantes = request.POST.get('datas_importantes', False) == 'True'
+          
         novo_usuario.save()
 
         return redirect('usuarios')
     else:
-        #locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
-        usuarios = Usuario.objects.all()
+        if importantes is not None:
+            usuarios = Usuario.objects.filter(datas_importantes=True)
+        else:
+            usuarios = Usuario.objects.all()
+
         for usuario in usuarios:
-            if usuario.data_da_festa is not None:
-                usuario.data_da_festa = usuario.data_da_festa.strftime('%d de %B de %Y')
+            usuario.data_da_festa = usuario.data_da_festa.strftime('%d de %B de %Y')
+            
         return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
-    
+
+
+
 
 def buscar_nomes(request):
     if request.method == 'GET':
@@ -73,19 +81,30 @@ def editar_usuario(request, id):
         nome_cliente = request.POST.get('nome_cliente')
         data_da_festa = request.POST.get('data_da_festa')
         endereco = request.POST.get('endereco')
+        datas_importantes = request.POST.get('datas_importantes') == 'on'
 
+       
         usuario.nome_cliente = nome_cliente  
         usuario.data_da_festa = datetime.strptime(data_da_festa, '%Y-%m-%d')
         usuario.endereco = endereco
+        usuario.datas_importantes = datas_importantes
+
 
         usuario.save()
 
         return redirect('usuarios')
     else:
         return render(request, 'usuarios/editar_usuario.html', {'usuario': usuario})
+    
 
 
 
+def datas_importantes(request):
+    usuarios = Usuario.objects.filter(datas_importantes=True)
+    for usuario in usuarios:
+        if usuario.data_da_festa is not None:
+            usuario.data_da_festa = usuario.data_da_festa.strftime('%d de %B de %Y')
+    return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
 
 
 def excluir_usuario(request, id):

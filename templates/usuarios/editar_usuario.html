@@ -20,9 +20,28 @@
       <label for="endereco">Endereço:</label>
       <input type="text" class="form-control" id="endereco" name="endereco" value="{{ usuario.endereco }}" required>
     </div>
+
+
+
+    <label for="id_datas_importantes">Data importante</label>
+    <input type="checkbox" name="datas_importantes" id="id_datas_importantes" {% if usuario.datas_importantes %}checked{% endif %}>
+    
+
+
+
+
+
     <button type="submit" class="btn btn-primary">Salvar</button>
     <a href="{% url 'usuarios' %}" class="btn btn-secondary">Cancelar</a>
   </form>
+
+
 </div>
 
 {% endblock %}
+
+
+<select class="form-control-sm" name="datas_importantes" id="datas_importantes">
+  <option value="0"{% if not usuario.datas_importantes %} selected{% endif %}>Não</option>
+  <option value="1"{% if usuario.datas_importantes %} selected{% endif %}>Sim</option>
+</select>
