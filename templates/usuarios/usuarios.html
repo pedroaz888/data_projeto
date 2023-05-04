@@ -23,7 +23,6 @@
             <label for="data_final">Data final:</label>
             <input type="date" id="data_final" name="data_final">
 
-          
             <button type="submit">Filtrar</button>
         </form>
 
@@ -32,16 +31,13 @@
         <form method="GET" action="{% url 'datas_importantes' %}">
             <button type="submit">Filtrar</button>
         </form>
-
     
         <tr>
             <th>id</th>
             <th>nome cliente</th>
             <th>data da festa</th>
             <th>endereço</th>
-           {% comment %}  <th>Datas IMPORTANTES</th> {% endcomment %}
-
-           
+           {% comment %}  <th>Datas IMPORTANTES</th> {% endcomment %}        
         </tr>
     
         {% for usuario in usuarios %}
