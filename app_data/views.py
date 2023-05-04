@@ -41,8 +41,6 @@ def usuarios(request, importantes=None):
         return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
 
 
-
-
 def buscar_nomes(request):
     if request.method == 'GET':
         query = request.GET.get('nome_busca')
