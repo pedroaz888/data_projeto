@@ -11,6 +11,7 @@ from django.shortcuts import render
 
 def home(request):
     return render(request, 'usuarios/home.html')
+    
 
 
 def usuarios(request, importantes=None):
@@ -22,7 +23,7 @@ def usuarios(request, importantes=None):
 
         novo_usuario = Usuario()
         novo_usuario.nome_cliente = nome_cliente  
-        novo_usuario.data_da_festa = datetime.strptime(data_da_festa, '%Y-%m-%d') 
+        novo_usuario.data_da_festa = datetime.strptime(data_da_festa, '%Y-%m-%d').strftime('%d/%m/%Y')
         novo_usuario.endereco = endereco
         novo_usuario.datas_importantes = request.POST.get('datas_importantes', False) == 'True'
           
@@ -35,9 +36,6 @@ def usuarios(request, importantes=None):
         else:
             usuarios = Usuario.objects.all()
 
-        for usuario in usuarios:
-            usuario.data_da_festa = usuario.data_da_festa.strftime('%d de %B de %Y')
-            
         return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
 
 
@@ -47,7 +45,7 @@ def buscar_nomes(request):
         usuarios = Usuario.objects.filter(nome_cliente__icontains=query)
         for usuario in usuarios:
             if usuario.data_da_festa is not None:
-                usuario.data_da_festa = usuario.data_da_festa.strftime('%d de %B de %Y')
+                usuario.data_da_festa = usuario.data_da_festa.strftime('%d/%m/%Y')
         return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
     
 
@@ -65,11 +63,12 @@ def buscar_datas(request):
             usuarios = Usuario.objects.filter(data_da_festa__range=[data_inicial, data_final])
             for usuario in usuarios:
                 if usuario.data_da_festa is not None:
-                    usuario.data_da_festa = usuario.data_da_festa.strftime('%d de %B de %Y')
+                    usuario.data_da_festa = usuario.data_da_festa.strftime('%d/%m/%Y')
             return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
         else:
             mensagem = 'Por favor, informe uma data inicial e uma data final para a busca.'
             return render(request, 'usuarios/usuarios.html', {'mensagem': mensagem})
+
 
 
 def editar_usuario(request, id):
@@ -77,23 +76,24 @@ def editar_usuario(request, id):
     
     if request.method == 'POST':
         nome_cliente = request.POST.get('nome_cliente')
-        data_da_festa = request.POST.get('data_da_festa')
+        data_da_festa_str = request.POST.get('data_da_festa')
         endereco = request.POST.get('endereco')
         datas_importantes = request.POST.get('datas_importantes') == 'on'
 
-       
+        data_da_festa = datetime.strptime(data_da_festa_str, '%Y-%m-%d').strftime('%Y-%m-%d')
+
         usuario.nome_cliente = nome_cliente  
-        usuario.data_da_festa = datetime.strptime(data_da_festa, '%Y-%m-%d')
+        usuario.data_da_festa = data_da_festa
         usuario.endereco = endereco
         usuario.datas_importantes = datas_importantes
-
 
         usuario.save()
 
         return redirect('usuarios')
     else:
+       
         return render(request, 'usuarios/editar_usuario.html', {'usuario': usuario})
-    
+
 
 
 
@@ -101,7 +101,7 @@ def datas_importantes(request):
     usuarios = Usuario.objects.filter(datas_importantes=True)
     for usuario in usuarios:
         if usuario.data_da_festa is not None:
-            usuario.data_da_festa = usuario.data_da_festa.strftime('%d de %B de %Y')
+            usuario.data_da_festa = usuario.data_da_festa.strftime('%d/%m/%Y')
     return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
 
 
