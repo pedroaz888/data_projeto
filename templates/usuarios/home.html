@@ -20,19 +20,20 @@
                 <option value="False">NÃO</option>
                 <option value="True">SIM</option>
               </select>
-      
+            </div></br>
 
-          </div>
-            
-              <button class="form-control-sm">Enviar</button>
+          <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"> 
+
+          <div style="text-align:center;" class="container">
+  
+
+             <button type="submit" class="btn btn-primary btn-lg btn-block">Enviar</button>
+
             </div>
-
-
           
         </div>
     </form>
 
 {% endblock %}
-
 
 

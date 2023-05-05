@@ -7,14 +7,13 @@
 
 
 <div class="container"></br>
- 
-    <h3>Lista das suas DATAS!</h3></br>
+    <a href="{% url 'usuarios' %}" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Lista Datas</a></br></br>
     <table class = "table table-bordered table-striped"> 
         <form method="GET" action="{% url 'buscar_nomes' %}">
             <input type="text" name="nome_busca" placeholder="Buscar por nome...">
             <button type="submit">Buscar</button>
         </form>
-
+        
 
         <form method="GET" action="{% url 'buscar_datas' %}">
             <label for="data_inicial">Data inicial:</label>
