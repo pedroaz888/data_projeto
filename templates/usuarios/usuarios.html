@@ -23,15 +23,17 @@
             <input type="date" id="data_final" name="data_final">
 
             <button type="submit">Filtrar</button>
-        </form>
+        </form></br></br>
 
         <label for="datas_importantes">DATAS IMPORTANTES:</label>
 
         <form method="GET" action="{% url 'datas_importantes' %}">
-            <button type="submit">Filtrar</button>
+            <button type="submit">  Filtrar</button>
         </form>
-    
-        <tr>
+        
+        <a href="{% url 'gerar_pdf'  %}" class=" col py-8 px-md-5 link-danger"> GERAR PDF das datas IMPORTANTES</a></br>
+
+     
             <th>id</th>
             <th>nome cliente</th>
             <th>data da festa</th>

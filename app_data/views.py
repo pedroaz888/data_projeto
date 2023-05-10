@@ -4,6 +4,9 @@ from django.shortcuts import redirect
 from .models import Usuario
 from datetime import datetime
 from django.http import JsonResponse
+from fpdf import FPDF
+from django.http import FileResponse
+from io import BytesIO
 #import locale
 #locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
@@ -12,8 +15,6 @@ from django.shortcuts import render
 def home(request):
     return render(request, 'usuarios/home.html')
     
-
-
 
 def usuarios(request, importantes=None):
     if request.method == 'POST':
@@ -115,3 +116,45 @@ def excluir_usuario(request, id):
     usuario.delete()
   
     return redirect('usuarios')
+
+
+from django.http import FileResponse
+from io import BytesIO
+from fpdf import FPDF
+from .models import Usuario
+
+def gerar_pdf(request):
+    usuarios = Usuario.objects.filter(datas_importantes=True)
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 8)
+    pdf.set_fill_color(240, 240, 240)
+
+    # Cabeçalhos
+    headers = ['Nome', 'Data', 'Endereço']
+
+    # Dados da tabela
+    data = []
+    for usuario in usuarios:
+        data.append([usuario.nome_cliente, usuario.data_da_festa.strftime('%d/%m/%Y'), usuario.endereco])
+
+    # Criar tabela
+    pdf.set_font("Arial", "B", 10)
+    cell_width = pdf.w / 3
+    cell_height = 10
+    pdf.cell(cell_width, cell_height, headers[0], 1, 0, 'C', 1)
+    pdf.cell(cell_width, cell_height, headers[1], 1, 0, 'C', 1)
+    pdf.cell(cell_width, cell_height, headers[2], 1, 1, 'C', 1)
+
+    pdf.set_font("Arial", "", 10)
+    for row in data:
+        for item in row:
+            pdf.cell(cell_width, cell_height, str(item), 1, 0, 'L')
+        pdf.ln(cell_height)
+
+    pdf_content = pdf.output(dest='S').encode('latin1')
+    pdf_bytes = BytesIO(pdf_content)
+
+    response = FileResponse(pdf_bytes, as_attachment=True, filename='usuarios.pdf')
+    return response
