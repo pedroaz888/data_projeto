@@ -7,35 +7,65 @@
 
 
 <div class="container"></br>
-    <a href="{% url 'usuarios' %}" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Lista Datas</a></br></br>
-    <table class = "table table-bordered table-striped"> 
-        <form method="GET" action="{% url 'buscar_nomes' %}">
-            <input type="text" name="nome_busca" placeholder="Buscar por nome...">
-            <button type="submit">Buscar</button>
-        </form>
+ <div class="btn-group" role="group" aria-label="Basic example">
+    
+    <a href="{% url 'usuarios' %}" class="btn btn-warning btn-lg ">Lista das datas</a>
+    <a href="{% url 'home' %}" class="btn btn-warning btn-lg ">Cadastre sua data</a>  
+  </div></br></br>
+ 
+       <table class = "table table-bordered table-striped"> 
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <form method="GET" action="{% url 'buscar_nomes' %}">
+                        <div class="input-group">
+                            <input class="form-control" type="search" name="nome_busca" placeholder="Buscar por nome..." aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <form method="GET" action="{% url 'buscar_datas' %}">
+                        <div class="input-group">
+                            <label for="data_inicial">Data inicial: </label>
+                            <input class="form-control" type="date" id="data_inicial" name="data_inicial">
+                        
+                            <label for="data_final">Data final: </label>
+                            <input class="form-control" type="date" id="data_final" name="data_final">
+                
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-success" type="submit">Filtrar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
         
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-md-3">
+            <label for="datas_importantes"></label>
+            <form method="GET" action="{% url 'datas_importantes' %}">
+                <div class="input-group">
+                    <button class="btn btn-danger" type="submit">DATAS IMPORTANTES</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <label for="datas_importantes"></label>
+            <form method="GET" action="{% url 'gerar_pdf' %}">
+                <div class="input-group">
+                    <button class="btn btn-warning" type="submit">GERAR PDF das datas IMPORTANTES</button>
+                </div>
+            </form>
+        </div>
+    </div>
+         
+</br>
 
-        <form method="GET" action="{% url 'buscar_datas' %}">
-            <label for="data_inicial">Data inicial:</label>
-            <input type="date" id="data_inicial" name="data_inicial">
-        
-            <label for="data_final">Data final:</label>
-            <input type="date" id="data_final" name="data_final">
-
-            <button type="submit">Filtrar</button>
-        </form></br></br>
-
-        <label for="datas_importantes">DATAS IMPORTANTES:</label>
-
-        <form method="GET" action="{% url 'datas_importantes' %}">
-            <button type="submit">  Filtrar</button>
-        </form>
-        
-        <a href="{% url 'gerar_pdf'  %}" class=" col py-8 px-md-5 link-danger"> GERAR PDF das datas IMPORTANTES</a></br>
-
-     
             <th>id</th>
-            <th>nome cliente</th>
+            <th>nome </th>
             <th>data da festa</th>
             <th>endereço</th>
            {% comment %}  <th>Datas IMPORTANTES</th> {% endcomment %}        

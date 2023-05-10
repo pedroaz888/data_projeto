@@ -3,9 +3,11 @@
 
 {% block conteudo %}</br>
 
+    
       <form action="{% url 'usuarios' %}" method="POST">
         {% csrf_token %} 
         <div style="text-align:center;" class="container">
+        
             <h2>Cadastre suas datas importantes...!</h2></br>
             Nome <input name="nome_cliente" class="form-control-sm" type="text" required>
             Data da Festa <input name="data_da_festa" class="form-control-sm" type="date" required>
