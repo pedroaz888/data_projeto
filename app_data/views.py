@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from fpdf import FPDF
 from django.http import FileResponse
 from io import BytesIO
+from math import sqrt
+
 #import locale
 #locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
@@ -101,8 +103,6 @@ def editar_usuario(request, id):
         return render(request, 'usuarios/editar_usuario.html', {'usuario': usuario})
 
 
-
-
 def datas_importantes(request):
     usuarios = Usuario.objects.filter(datas_importantes=True)
     for usuario in usuarios:
@@ -117,11 +117,6 @@ def excluir_usuario(request, id):
   
     return redirect('usuarios')
 
-
-from django.http import FileResponse
-from io import BytesIO
-from fpdf import FPDF
-from .models import Usuario
 
 def gerar_pdf(request):
     usuarios = Usuario.objects.filter(datas_importantes=True)
@@ -158,3 +153,6 @@ def gerar_pdf(request):
 
     response = FileResponse(pdf_bytes, as_attachment=True, filename='usuarios.pdf')
     return response
+
+
+

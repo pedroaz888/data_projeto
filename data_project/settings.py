@@ -1,5 +1,6 @@
 
-
+from decouple import config
+import dj_database_url
 from pathlib import Path
 import os
 
@@ -11,7 +12,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5(kmp$qtjc22)4y*!0%xn2l#fwi-xw#qa2xwkl_w7$e5!fo2op'
+# SECRET_KEY = 'django-insecure-5(kmp$qtjc22)4y*!0%xn2l#fwi-xw#qa2xwkl_w7$e5!fo2op'
+
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+DATABASES = {
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
+}
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -71,25 +80,26 @@ WSGI_APPLICATION = 'data_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-""" DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-} """
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'dJA53eCmjSGaNwLFWzEA',
-        'HOST': 'containers-us-west-198.railway.app',
-        'PORT': '5448',
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME':'dataproj',
+#         'USER':'postgres',
+#         'PASSWORD':'1234',
+#         'HOST':'localhost', 
+#         'PORT':'5432',
+          
+#     }
+# }
 
-    }
-}
 
 
 
@@ -141,3 +151,7 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
