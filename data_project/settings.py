@@ -17,9 +17,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
-}
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -100,6 +97,9 @@ WSGI_APPLICATION = 'data_project.wsgi.application'
 #     }
 # }
 
+DATABASES = {
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
+}
 
 
 
