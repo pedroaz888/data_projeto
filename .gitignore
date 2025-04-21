@@ -1,0 +1,16 @@
+# Ignorar o ambiente virtual
+venv/
+
+# Ignorar arquivos compilados do Python
+__pycache__/
+*.py[cod]
+
+# Ignorar o arquivo de banco de dados SQLite (caso exista)
+db.sqlite3
+
+# Ignorar variáveis de ambiente
+.env
+
+# Outros arquivos desnecessários
+*.log
+*.sqlite3
